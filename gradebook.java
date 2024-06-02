@@ -1,7 +1,10 @@
 import java.util.*;
 
+
 public class Gradebook {
-     
+     private double[] scoreLimits = new double [] {60, 70, 80, 90, 100};
+     private String[] letterGrade = new String [] {"F", "D", "C", "B", "A"};
+     private ChoiceFormat gradeFormat = new ChoiceFormat(scoreLimits, letterGrade);
 }
 
 class Student {
