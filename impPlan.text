@@ -1,0 +1,22 @@
+Student Class
+Course Name
+grades
+name
+
+gradebook Class
+Course Name ?
+Student(s)
+grade weights
+Grade components
+    Activity (String) Weight(Double)
+Grade Formula (Double) static?
+
+Course Class
+Name
+Breakdown of Score
+Grade Calculation
+
+
+
+student should have scores
+gradebook assigns letter grade
