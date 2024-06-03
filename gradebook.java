@@ -3,128 +3,197 @@ import java.text.*;
 
 
 public class Gradebook {
-   private final double[] SCORE_LIMITS = new double [] {60, 70, 80, 90, 100};
-   private final String[] LETTER_GRADE = new String [] {"F", "D", "C", "B", "A"};
-   private ChoiceFormat gradeFormat = new ChoiceFormat(SCORE_LIMITS, LETTER_GRADE);
-   private HashMap<Student, Double> studentGrades;
+  
+   private static double PARTICIPATION_WEIGHT = 0.10;
+   private static double PROJECT_WEIGHT = 0.35;
+   private static double MIDTERM_WEIGHT = 0.30;
+   private static double FINAL_EXAM_WEIGHT = 0.25;
 
-   public Gradebook() {
-      studentGrades = new HashMap<Student, Double>();
+   private double[] gradeLimits = new double [] {0, 60, 70, 80, 90};
+   private String[] gradeLetters = new String [] {"F", "D", "C", "B", "A"};
+   ChoiceFormat gradeFormat = new ChoiceFormat(gradeLimits, gradeLetters);
+
+
+   private Record recordEntry;
+
+   
+   //Total Grade Letter
+
+
+   public static void main(String[] args) {
+      Gradebook gb = new Gradebook();
+      
+   }
+
+   public Gradebook () {
+      recordEntry = new Record();
+      recordEntry.collectData();
+      totalScore(recordEntry);
+   }
+
+   public double participationScore(Record record) {
+      return (record.getParticipationScore() * PARTICIPATION_WEIGHT);
+   }
+
+   public double projectScore(Record record) {
+      double projectTotal = 0;
+      for (Double score : record.getProjScores().values()) {
+         projectTotal += score;
+      }
+      projectTotal /= record.getProjScores().values().size();
+      return (projectTotal * PROJECT_WEIGHT);
+   }
+
+   public double midtermScore(Record record) {
+      double midtermTotal = 0;
+      for (Double score : record.getMidtermScores().values()) {
+         midtermTotal += score;
+      }
+      midtermTotal /= record.getMidtermScores().values().size();
+      return (midtermTotal * MIDTERM_WEIGHT);
+
+   }
+
+   public double finalExamScore(Record record) {
+      return (record.getFinalExamScore() * FINAL_EXAM_WEIGHT);
+   }
+
+   public void totalScore(Record record) {
+      double partScore = participationScore(record);
+      double projScore = projectScore(record);
+      double midScore = midtermScore(record);
+      double feScore = finalExamScore(record);
+      double totalScore = (partScore + projScore + midScore + feScore);
+      record.setTotalScore(totalScore);
+      record.setLetterGrade(gradeFormat.format(totalScore));
+      System.out.printf("\n%5.2f %5s\n\n",totalScore, record.getLetterGrade());
+
+
+   }
+
+
+   public void midtermSwap(Record record) {
+      double midtermTotal = 0;
+      for (Double score : record.getMidtermScores().values()) {
+         midtermTotal += score;
+      }
+      if (record.getFinalExamScore() > Collections.min(record.getMidtermScores().values())) {
+         midtermTotal -= Collections.min(record.getMidtermScores().values());
+         midtermTotal += record.getFinalExamScore();
+      }
+      midtermTotal /= record.getMidtermScores().values().size();
+      midtermTotal *= MIDTERM_WEIGHT;
+   }
+
+}
+
+
+class Record {
+   private static String [] courseProjects = new String[] {"Project 1", "Project 2"};
+   private static String [] courseMidterms = new String[] {"Midterm 1", "Midterm 2"};
+   private String studentName;
+   private String letterGrade;
+   //private boolean participationScore;
+   private HashMap<String, Double> projectScores, midtermScores;
+   //private HashMap<String, Double> midtermScores;
+   private double participationScore, finalExamScore, totalScore;
+
+   public Record() {
+      studentName = "";
+      projectScores = new HashMap<String, Double>();
+      midtermScores = new HashMap<String, Double>();
+      participationScore = finalExamScore = totalScore = 0;
    }
 
    // getters
-   public int getSize() {
-      return this.studentGrades.size();
+
+   public double getParticipationScore() {
+      return this.participationScore;
    }
-   public Set<Student> getStudents() {
-      if (studentGrades.size() > 0) {
-         return studentGrades.keySet();
+      
+   
+   public HashMap<String, Double> getProjScores() {
+      return this.projectScores;
+   }
+
+   public HashMap<String, Double> getMidtermScores() {
+      return this.midtermScores;
+   }
+
+   public double getFinalExamScore() {
+      return this.finalExamScore;
+   }
+
+   public String getLetterGrade() {
+      return this.letterGrade;
+   }
+
+
+   // setters
+   public void setLetterGrade(String grade) {
+      this.letterGrade = grade;
+   }
+
+   public void setTotalScore(double score) {
+      this.totalScore = score;
+   }
+
+   
+   
+   
+   
+   // Prompts
+   public void collectData() {
+      try (Scanner scanner = new Scanner(System.in)) {
+         namePrompt(scanner);
+         participationPrompt(scanner);
+         projectPrompt(scanner);
+         midtermPrompt(scanner);
+         finalExamPrompt(scanner);
+      }
+      catch (Exception e) {
+         System.out.println(e.getMessage());
+      }
+   }
+
+   public void namePrompt(Scanner scanner) throws Exception {
+      System.out.println("Welcome to the interactive gradebook. What is the student name?");
+      this.studentName = scanner.nextLine();
+   }
+   
+   public void participationPrompt(Scanner scanner) throws Exception {
+      System.out.println("Did student receive participation credit? (yes/no)");
+      String userResponse = scanner.nextLine().toLowerCase().trim();
+      if (userResponse.equals("yes")) {
+         this.participationScore = 100;
+      }
+      else if (userResponse.equals("no")) {
+         this.participationScore = 0;
       }
       else {
-         return null;
-      }
-   }
-   // setters
-
-   // logic
-   //public double calcGrade(Student student) {
-      //iterate through student hash map
-      // retrieve scores for each task
-      // and apply formula
-      // Total_Grade = (0.1 x part.) + (0.35 x proj.) + (0.3 x Midt.) + (.25 x Final.)
-   //}
-
-   public void showNames() {
-      for (Student student : getStudents()) {
-         System.out.printf("%-25s%6f%5S",
-          student.getName() /*student grade */, gradeFormat.format(90));
+         throw new IllegalArgumentException("Only answers of 'yes' or 'no' accpeted for participation");
       }
    }
 
-   // setters
+   public void projectPrompt(Scanner scanner) throws Exception {
+      for (String project : courseProjects) {
+         System.out.printf("Enter grade for %s.\n", project);
+         this.projectScores.put(project,scanner.nextDouble());
+      }
+   }
+
+   public void midtermPrompt(Scanner scanner) throws Exception {
+      for (String midterm : courseMidterms) {
+         System.out.printf("Enter grade for %s.\n", midterm);
+         this.midtermScores.put(midterm, scanner.nextDouble());
+      }
+   }
+
+   public void finalExamPrompt(Scanner scanner) throws Exception {
+      System.out.println("Enter grade for Final Exam.");
+      this.finalExamScore = scanner.nextDouble();
+   }
+
 }
 
-/**
- * Student class, when instantiated, contains a HashMap that
- * stores the scores of tasks assigned to students. Also contains
- * the student's name as a String. Default constructor initiliazes
- * all variables.
- */
-class Student {
-    // Vars 
-    private HashMap<String, Double> studentScores;
-    private String studentName;
 
-    // Constructor
-    Student() {
-        studentName = "";
-        studentScores = new HashMap<String, Double>();
-    }//end Default Constructor
-
-    // getters
-    /**
-     * getName() returns the String value representing a
-     * Student's name, associated with the instance
-     */
-    public String getName() {
-        return this.studentName;
-    }//end getName()
-
-    /**
-     * getScore() returns an integer when called, either returning
-     * the score (value) associated with the passed string (task) or
-     * returns -1 to indicate no score is available.
-     * 
-     * @param task Stores the string representation of an assignment name.
-     */
-    public double getScore(String task) {
-        if (this.studentScores.containsKey(task)) {
-            return this.studentScores.get(task);
-        }//end if
-        else {
-            return -1;
-        }//end else
-    }// end getScore()
-
-    /**
-     * getNumScores() returns the number of task-scores associated
-     * with the student instance
-     */
-    public int getNumScores() {
-        return this.studentScores.size();
-    }//end getNumScores()
-
-    // setters
-    /**
-     * setScore() updates the student's grade and associated
-     * task. If the entry for task already exists, a message
-     * notifies the user that an update has occured. If the
-     * task did not exist, the user is notified of the addition.
-     * 
-     * @param task String representation of a task which has received a score
-     * @param score Integer representing score given for a task
-     */
-    public void setScore(String task, Double score) {
-        if (this.studentScores.put(task,score) != null) {
-            System.out.printf("%s score has been updated to %f\n", task, score);
-        }//end if
-        else {
-            System.out.printf("%s score added", task);
-        }//end else
-    }//end setScore()
-
-    /**
-     * setName() accepts a string argument and associates
-     * that String as the name for the student instance.
-     * 
-     * @param studentName String representing a student's name
-     */
-    public void setName(String studentName) {
-        this.studentName = studentName;
-    }//end setName()
-}//end Student
-
-class CourseWeight {
-   //public static void 
-   //Total_Grade = (0.1 x part.) + (0.35 x proj.) + (0.3 x Midt.) + (.25 x Final.)
-}
