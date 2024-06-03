@@ -1,21 +1,64 @@
 import java.util.*;
+import java.text.*;
 
 
 public class Gradebook {
-     private double[] scoreLimits = new double [] {60, 70, 80, 90, 100};
-     private String[] letterGrade = new String [] {"F", "D", "C", "B", "A"};
-     private ChoiceFormat gradeFormat = new ChoiceFormat(scoreLimits, letterGrade);
+   private final double[] SCORE_LIMITS = new double [] {60, 70, 80, 90, 100};
+   private final String[] LETTER_GRADE = new String [] {"F", "D", "C", "B", "A"};
+   private ChoiceFormat gradeFormat = new ChoiceFormat(SCORE_LIMITS, LETTER_GRADE);
+   private HashMap<Student, Double> studentGrades;
+
+   public Gradebook() {
+      studentGrades = new HashMap<Student, Double>();
+   }
+
+   // getters
+   public int getSize() {
+      return this.studentGrades.size();
+   }
+   public Set<Student> getStudents() {
+      if (studentGrades.size() > 0) {
+         return studentGrades.keySet();
+      }
+      else {
+         return null;
+      }
+   }
+   // setters
+
+   // logic
+   //public double calcGrade(Student student) {
+      //iterate through student hash map
+      // retrieve scores for each task
+      // and apply formula
+      // Total_Grade = (0.1 x part.) + (0.35 x proj.) + (0.3 x Midt.) + (.25 x Final.)
+   //}
+
+   public void showNames() {
+      for (Student student : getStudents()) {
+         System.out.printf("%-25s%6f%5S",
+          student.getName() /*student grade */, gradeFormat.format(90));
+      }
+   }
+
+   // setters
 }
 
+/**
+ * Student class, when instantiated, contains a HashMap that
+ * stores the scores of tasks assigned to students. Also contains
+ * the student's name as a String. Default constructor initiliazes
+ * all variables.
+ */
 class Student {
     // Vars 
-    private HashMap<String, Integer> studentScores;
+    private HashMap<String, Double> studentScores;
     private String studentName;
 
     // Constructor
     Student() {
         studentName = "";
-        studentScores = new HashMap<String, Integer>();
+        studentScores = new HashMap<String, Double>();
     }//end Default Constructor
 
     // getters
@@ -34,7 +77,7 @@ class Student {
      * 
      * @param task Stores the string representation of an assignment name.
      */
-    public int getScore(String task) {
+    public double getScore(String task) {
         if (this.studentScores.containsKey(task)) {
             return this.studentScores.get(task);
         }//end if
@@ -61,7 +104,7 @@ class Student {
      * @param task String representation of a task which has received a score
      * @param score Integer representing score given for a task
      */
-    public void setScore(String task, Integer score) {
+    public void setScore(String task, Double score) {
         if (this.studentScores.put(task,score) != null) {
             System.out.printf("%s score has been updated to %f\n", task, score);
         }//end if
@@ -80,3 +123,8 @@ class Student {
         this.studentName = studentName;
     }//end setName()
 }//end Student
+
+class CourseWeight {
+   //public static void 
+   //Total_Grade = (0.1 x part.) + (0.35 x proj.) + (0.3 x Midt.) + (.25 x Final.)
+}
