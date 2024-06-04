@@ -151,9 +151,11 @@ public class Gradebook {
       collectProjects(scanner);
       collectMidterms(scanner);
       collectFinalExam(scanner);
-      double projectAverage = calculateAverage(new ArrayList<Double>(projectScores.values()));
+      double projectAverage = 
+         calculateAverage(new ArrayList<Double>(projectScores.values()));
       setProjectAverage(projectAverage);
-      double midtermAverage = calculateAverage(new ArrayList<Double>(midtermScores.values()));
+      double midtermAverage = 
+         calculateAverage(new ArrayList<Double>(midtermScores.values()));
       setMidtermAverage(midtermAverage);
       double totalScore = calculateTotalScore();
       setTotalScore(totalScore);
@@ -294,7 +296,7 @@ public class Gradebook {
 
    // Prompts
    public void promptName() {
-      System.out.println("Welcome to the interactive grade book" +
+      System.out.println("Welcome to the interactive grade book. " +
       "What is the student name?");
    }
 
