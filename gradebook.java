@@ -14,31 +14,56 @@ import java.text.*;
 public class Gradebook {
 
    // Course Weight for Tasks
+   /** Participation is 10% of Total Grade */
    private static final double PARTICIPATION_WEIGHT = 0.10;
+   /** Projects are 35% of Total Grade */
    private static final double PROJECT_WEIGHT = 0.35;
+   /** Midterms are 30% of Total Grade */
    private static final double MIDTERM_WEIGHT = 0.30;
+   /** Final Exam is 25% of Total Grade */
    private static final double FINAL_EXAM_WEIGHT = 0.25;
    //private static final String COURSE_NAME = "COMP 163";
 
    // Grade Thresholds
+   /** Holds threshold values for each letter grade */
    private static final double[] gradeThresholds = new double[] {0, 60, 70, 80, 90};
+   /** Holds all possible letter grades */
    private static final String[] letterGrades = new String[] {"F", "D", "C", "B", "A"};
    
    // List of Scored Course Tasks
+   /** Holds name of all scored course projects */
    private static final String[] courseProjects = 
       new String[] {"Project 1", "Project 2"};
+   /** Holds name of all scored course midterms */
    private static final String[] courseMidterms = 
       new String[] {"Midterm 1", "Midterm 2", "Midterm 3"};
 
    // Instance Variables
-   private String studentName, letterGrade;
-   private boolean midtermSwapFlag;             //Lowest Midterm Grade Swapped
-   private double participationScore, projectAverage, midtermAverage;
-   private double finalExamScore, totalScore;
-   private HashMap<String, Double> projectScores, midtermScores;
+   /** Holds the first and last name of a student */
+   private String studentName;
+   /** Holds the assigned letter grade earned */
+   private String letterGrade;
+   /** Flags whether the lowest midterm grade has been swapped */
+   private boolean midtermSwapFlag;
+   /** Holds the earned participation score */             
+   private double participationScore;
+   /** Holds the calculated project score average */
+   private double projectAverage;
+   /** Holds the calculated midterm score average */
+   private double midtermAverage;
+   /** Holds the final exam score earned */
+   private double finalExamScore;
+   /** Holds the calculated total score earned */
+   private double totalScore;
+   /** Holds the pairing of projects assigned and score earned */
+   private HashMap<String, Double> projectScores;
+   /** Holds the pairing of midterms assigned and score earned */
+   private HashMap<String, Double> midtermScores;
    
    // Formats numerical score to letter grade
+   /** Formats decimal grades into letter grades, via thresholds */
    ChoiceFormat gradeFormat;
+   /** Formats decimal numbers to two decimal places */
    DecimalFormat decimalFormat;
 
    /**
