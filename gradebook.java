@@ -123,29 +123,61 @@ public class Gradebook {
       return this.projectScores;
    }//end getProjectScores()
 
+   /**
+    * getProjectScore() returns a single score value
+    * associated with the passed parameter.
+    * @param projectName String value representing a project name.
+    * @return Double value representing a score on specified project.
+    */
    public double getProjectScore(String projectName) {
       return projectScores.get(projectName);
-   }
+   }//end getProjectScore()
 
+   /**
+    * getMidtermAverage() returns the double value representing
+    * the calculated midterm average.
+    * @return Double calculated midterm average
+    */
    public double getMidtermAverage() {
       return this.midtermAverage;
-   }
+   }//end getMidtermAverage()
 
+   /**
+    * getMidtermScores() returns a reference to the
+    * midtermScores HashMap<String, Double> instance variable.
+    * @return Reference to HashMap of student midterm scores.
+    */
    public HashMap<String, Double> getMidtermScores() {
       return this.midtermScores;
-   }
+   }//end getMidtermScores()
 
+   /**
+    * getMidtermScore() returns the double value associated
+    * with the passed string parameter.
+    * @param midtermName String representing an assigned Midterm.
+    * @return Double value representing score on specified Midterm.
+    */
    public double getMidtermScore(String midtermName) {
       return midtermScores.get(midtermName);
-   }
+   }//end getMidtermScore()
 
+   /**
+    * getFinalExamScore() returns the double value
+    * representing the score for Final Exam.
+    * @return Double value representing final exam score.
+    */
    public double getFinalExamScore() {
       return this.finalExamScore;
-   }
+   }//end getFinalExamScore()
 
+   /**
+    * getTotalScore() returns the double value
+    * representing the calculated Total Score earned.
+    * @return Double value calculated Total Score.
+    */
    public double getTotalScore() {
       return this.totalScore;
-   }
+   }//end getTotalScore()
 
 
    // setters
@@ -283,15 +315,15 @@ public class Gradebook {
    }
 
    public void calculateLetterGrade() {
-      String letterGrade;
-      letterGrade = gradeFormat.format(this.getTotalScore());
+      String letterGrade = gradeFormat.format(this.getTotalScore());
       setLetterGrade(letterGrade);
    }
 
    // Data Collectors
    public void collectName(Scanner scanner) {        // Sanitize Input
       promptName();
-      this.setName(scanner.nextLine());
+      String studentName = scanner.nextLine();
+      this.setName(studentName);
    }
 
    public void collectParticipation(Scanner scanner) { 
