@@ -11,8 +11,10 @@ public class Gradebook {
    //private static final String COURSE_NAME = "COMP 163";
    
 
-   private static final String[] courseProjects = new String [] {"Project 1", "Project 2"};
-   private static final String[] courseMidterms = new String[] {"Midterm 1", "Midterm 2", "Midterm 3"};
+   private static final String[] courseProjects = 
+      new String [] {"Project 1", "Project 2"};
+   private static final String[] courseMidterms = 
+      new String[] {"Midterm 1", "Midterm 2", "Midterm 3"};
 
 
    private String studentName, letterGrade;
@@ -196,10 +198,12 @@ public class Gradebook {
    }
 
    public void midtermSwapTest() {
-      double lowestMidtermScore = Collections.min(getMidtermScores().values());
+      double lowestMidtermScore =
+       Collections.min(getMidtermScores().values());
       if (getFinalExamScore() > lowestMidtermScore) {
          double newMidtermAverage = 
-            midtermSwapAverage(new ArrayList<Double>(getMidtermScores().values()));
+            midtermSwapAverage(new ArrayList<Double>(
+               getMidtermScores().values()));
          double newTotalScore = calculateTotalScore(newMidtermAverage);
          double totalPointsGained = newTotalScore - getTotalScore();
          double totalPointsNeeded = 10 - (getTotalScore() % 10);
@@ -220,7 +224,8 @@ public class Gradebook {
 
    public double midtermSwapAverage(ArrayList<Double> studentScores) {
       double lowestMidtermScore = Collections.min(studentScores);
-      studentScores.set(studentScores.indexOf(lowestMidtermScore), getFinalExamScore());
+      studentScores.set(studentScores.indexOf(lowestMidtermScore),
+       getFinalExamScore());
       double newMidtermAverage = calculateAverage(studentScores);
       return newMidtermAverage;
    }
@@ -313,19 +318,26 @@ public class Gradebook {
       promptTaskScore(finalExam);
    }
    public void doubleErrorMessage(String assignmentName) {
-      System.out.printf("Error - Expected number score for %s.\n", assignmentName);
+      System.out.printf("Error - Expected number score for %s.\n",
+       assignmentName);
    }
    public void displayResults() {
       System.out.println("* * * * *");
       System.out.println("Here is the grade summary for " + getName() + ".");
-      System.out.println("Participation score: " + decimalFormat.format(getParticipationScore()));
-      System.out.println("Project score: " + decimalFormat.format(getProjectAverage()));
-      System.out.println("Midterm score: " + decimalFormat.format(getMidtermAverage()));
+      System.out.println("Participation score: " +
+       decimalFormat.format(getParticipationScore()));
+      System.out.println("Project score: " +
+       decimalFormat.format(getProjectAverage()));
+      System.out.println("Midterm score: " +
+       decimalFormat.format(getMidtermAverage()));
       if (this.midtermSwapFlag == true) {
-         System.out.println("A midterm grade was replaced by the final exam grade.");
+         System.out.println("A midterm grade was replaced by" +
+          " the final exam grade.");
       }
-      System.out.println("Final Exam score: " + decimalFormat.format(getFinalExamScore()));
-      System.out.println("Total score: " + decimalFormat.format(getTotalScore()));
+      System.out.println("Final Exam score: " +
+       decimalFormat.format(getFinalExamScore()));
+      System.out.println("Total score: " +
+       decimalFormat.format(getTotalScore()));
       System.out.println("Final grade: " + getLetterGrade());
       System.out.println("* * * * *");
    }
