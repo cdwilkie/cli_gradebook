@@ -3,128 +3,328 @@ import java.text.*;
 
 
 public class Gradebook {
-   private final double[] SCORE_LIMITS = new double [] {60, 70, 80, 90, 100};
-   private final String[] LETTER_GRADE = new String [] {"F", "D", "C", "B", "A"};
-   private ChoiceFormat gradeFormat = new ChoiceFormat(SCORE_LIMITS, LETTER_GRADE);
-   private HashMap<Student, Double> studentGrades;
+
+   private static final double PARTICIPATION_WEIGHT = 0.10;
+   private static final double PROJECT_WEIGHT = 0.35;
+   private static final double MIDTERM_WEIGHT = 0.30;
+   private static final double FINAL_EXAM_WEIGHT = 0.25;
+   //private static final String COURSE_NAME = "COMP 163";
+   
+
+   private static final String[] courseProjects = new String [] {"Project 1", "Project 2"};
+   private static final String[] courseMidterms = new String[] {"Midterm 1", "Midterm 2", "Midterm 3"};
+
+
+   private String studentName, letterGrade;
+   private boolean midtermSwapFlag;
+   private double participationScore, projectAverage, midtermAverage;
+   private double finalExamScore, totalScore;
+   private HashMap<String, Double> projectScores, midtermScores;
+   
+
+   private double[] gradeThresholds = new double[] {0, 60, 70, 80, 90};
+   private String[] letterGrades = new String[] {"F", "D", "C", "B", "A"};
+   ChoiceFormat gradeFormat = new ChoiceFormat(gradeThresholds, letterGrades);
+   DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+
+   public static void main(String[] args) {
+      Gradebook newDemo = new Gradebook();
+      newDemo.demoMode();
+      
+   }
 
    public Gradebook() {
-      studentGrades = new HashMap<Student, Double>();
+      studentName = "";
+      letterGrade = "";
+      midtermSwapFlag = false;
+      participationScore = projectAverage = midtermAverage = finalExamScore =
+       totalScore = 0;
+      projectScores = new HashMap<String, Double>();
+      midtermScores = new HashMap<String, Double>();
    }
+
 
    // getters
-   public int getSize() {
-      return this.studentGrades.size();
+   public boolean getMidtermSwapFlag() {
+      return this.midtermSwapFlag;
    }
-   public Set<Student> getStudents() {
-      if (studentGrades.size() > 0) {
-         return studentGrades.keySet();
+   public String getLetterGrade() {
+      return this.letterGrade;
+   }
+
+   public String getName() {
+      return this.studentName;
+   }
+
+   public double getParticipationScore() {
+      return this.participationScore;
+   }
+
+   public double getProjectAverage() {
+      return this.projectAverage;
+   }
+
+   public HashMap<String, Double> getProjectScores() {
+      return this.projectScores;
+   }
+
+   public double getProjectScore(String projectName) {
+      return projectScores.get(projectName);
+   }
+
+   public double getMidtermAverage() {
+      return this.midtermAverage;
+   }
+
+   public HashMap<String, Double> getMidtermScores() {
+      return this.midtermScores;
+   }
+
+   public double getMidtermScore(String midtermName) {
+      return midtermScores.get(midtermName);
+   }
+
+   public double getFinalExamScore() {
+      return this.finalExamScore;
+   }
+
+   public double getTotalScore() {
+      return this.totalScore;
+   }
+
+
+   // setters
+   public void setMidtermSwapFlag(boolean midtermSwapFlag) {
+      this.midtermSwapFlag = midtermSwapFlag;
+   }
+   public void setLetterGrade(String letterGrade) {
+      this.letterGrade = letterGrade;
+   }
+
+   public void setName(String studentName) {
+      this.studentName = studentName;
+   }
+
+   public void setParticipationScore(double participationScore) {
+      this.participationScore = participationScore;
+   }
+
+   public void setProjectAverage(double projectAverage) {
+      this.projectAverage = projectAverage;
+   }
+
+   public void setProjectScores(HashMap<String, Double> projectScores) {
+      this.projectScores = projectScores;
+   }
+
+   public void setProjectScore(String projectName, double projectScore) {
+      projectScores.put(projectName, projectScore);
+   }
+
+   public void setMidtermAverage(double midtermAverage) {
+      this.midtermAverage = midtermAverage;
+   }
+
+   public void setMidtermScores(HashMap<String, Double> midtermScores) {
+      this.midtermScores = midtermScores;
+   }
+
+   public void setMidtermScore(String midtermName, double midtermScore) {
+      midtermScores.put(midtermName, midtermScore);
+   }
+
+   public void setFinalExamScore(double finalExamScore) {
+      this.finalExamScore = finalExamScore;
+   }
+
+   public void setTotalScore(double totalScore) {
+      this.totalScore = totalScore;
+   }
+
+   // Logic
+   // Consider methods that accept arrays/collections of doubles
+   public void demoMode() {
+      Scanner scanner = new Scanner(System.in);
+      collectName(scanner);
+      collectParticipation(scanner);
+      collectProjects(scanner);
+      collectMidterms(scanner);
+      collectFinalExam(scanner);
+      double projectAverage = calculateAverage(new ArrayList<Double>(projectScores.values()));
+      setProjectAverage(projectAverage);
+      double midtermAverage = calculateAverage(new ArrayList<Double>(midtermScores.values()));
+      setMidtermAverage(midtermAverage);
+      double totalScore = calculateTotalScore();
+      setTotalScore(totalScore);
+      midtermSwapTest();
+      calculateLetterGrade();
+      displayResults();
+      
+      
+
+   }
+   public double calculateTotalScore() {
+      double totalScore = 0;
+      totalScore += (getParticipationScore() * PARTICIPATION_WEIGHT);
+      totalScore += (getProjectAverage() * PROJECT_WEIGHT);
+      totalScore += (getMidtermAverage() * MIDTERM_WEIGHT);
+      totalScore += (getFinalExamScore() * FINAL_EXAM_WEIGHT);
+      return totalScore;
+   }
+
+   public double calculateTotalScore(double modifiedMidterm) {
+      double totalScore = 0;
+      totalScore += (getParticipationScore() * PARTICIPATION_WEIGHT);
+      totalScore += (getProjectAverage() * PROJECT_WEIGHT);
+      totalScore += (modifiedMidterm * MIDTERM_WEIGHT);
+      totalScore += (getFinalExamScore() * FINAL_EXAM_WEIGHT);
+      return totalScore;
+      
+   }
+
+
+   public double calculateAverage(ArrayList<Double>studentScores) {
+      double calculatedAverage = 0;
+      for (double value : studentScores) {
+         calculatedAverage += value;
+      }
+      calculatedAverage /= studentScores.size();
+      return calculatedAverage;
+   }
+
+   public void midtermSwapTest() {
+      double lowestMidtermScore = Collections.min(getMidtermScores().values());
+      if (getFinalExamScore() > lowestMidtermScore) {
+         double newMidtermAverage = 
+            midtermSwapAverage(new ArrayList<Double>(getMidtermScores().values()));
+         double newTotalScore = calculateTotalScore(newMidtermAverage);
+         double totalPointsGained = newTotalScore - getTotalScore();
+         double totalPointsNeeded = 10 - (getTotalScore() % 10);
+         if (totalPointsGained >= totalPointsNeeded) {
+            setMidtermSwapFlag(true);
+            setMidtermAverage(newMidtermAverage);
+            setTotalScore(newTotalScore);
+         }
+         else {
+            setMidtermSwapFlag(false);
+         }
+
       }
       else {
-         return null;
-      }
-   }
-   // setters
-
-   // logic
-   //public double calcGrade(Student student) {
-      //iterate through student hash map
-      // retrieve scores for each task
-      // and apply formula
-      // Total_Grade = (0.1 x part.) + (0.35 x proj.) + (0.3 x Midt.) + (.25 x Final.)
-   //}
-
-   public void showNames() {
-      for (Student student : getStudents()) {
-         System.out.printf("%-25s%6f%5S",
-          student.getName() /*student grade */, gradeFormat.format(90));
+         setMidtermSwapFlag(false);
       }
    }
 
-   // setters
-}
+   public double midtermSwapAverage(ArrayList<Double> studentScores) {
+      double lowestMidtermScore = Collections.min(studentScores);
+      studentScores.set(studentScores.indexOf(lowestMidtermScore), getFinalExamScore());
+      double newMidtermAverage = calculateAverage(studentScores);
+      return newMidtermAverage;
+   }
 
-/**
- * Student class, when instantiated, contains a HashMap that
- * stores the scores of tasks assigned to students. Also contains
- * the student's name as a String. Default constructor initiliazes
- * all variables.
- */
-class Student {
-    // Vars 
-    private HashMap<String, Double> studentScores;
-    private String studentName;
+   public void calculateLetterGrade() {
+      String letterGrade;
+      letterGrade = gradeFormat.format(this.getTotalScore());
+      setLetterGrade(letterGrade);
+   }
 
-    // Constructor
-    Student() {
-        studentName = "";
-        studentScores = new HashMap<String, Double>();
-    }//end Default Constructor
+   // Data Collectors
+   public void collectName(Scanner scanner) {        // Sanitize Input
+      promptName();
+      this.setName(scanner.nextLine());
+   }
 
-    // getters
-    /**
-     * getName() returns the String value representing a
-     * Student's name, associated with the instance
-     */
-    public String getName() {
-        return this.studentName;
-    }//end getName()
+   public void collectParticipation(Scanner scanner) { 
+      while (true) {
+         promptParticipation();
+         String userResponse = scanner.nextLine();
+         if (userResponse.toLowerCase().trim().equals("yes")) {
+            this.setParticipationScore(100);
+            break;
+         }
+         else if (userResponse.toLowerCase().trim().equals("no")) {
+            this.setParticipationScore(0);
+            break;
+         }
+         else {
+            System.out.println("Expected 'yes' or 'no' as answer");
+            continue;
+         }
+      }
+   }
 
-    /**
-     * getScore() returns an integer when called, either returning
-     * the score (value) associated with the passed string (task) or
-     * returns -1 to indicate no score is available.
-     * 
-     * @param task Stores the string representation of an assignment name.
-     */
-    public double getScore(String task) {
-        if (this.studentScores.containsKey(task)) {
-            return this.studentScores.get(task);
-        }//end if
-        else {
-            return -1;
-        }//end else
-    }// end getScore()
+   public void collectProjects(Scanner scanner) {
+      for (String project : courseProjects) {
+         promptTaskScore(project);
+         while (!scanner.hasNextDouble()) {
+            doubleErrorMessage(project);
+            scanner.nextLine();
+            promptTaskScore(project);
+         }
+         double projectScore = scanner.nextDouble();
+         this.setProjectScore(project, projectScore);
+      }
+   }
 
-    /**
-     * getNumScores() returns the number of task-scores associated
-     * with the student instance
-     */
-    public int getNumScores() {
-        return this.studentScores.size();
-    }//end getNumScores()
+   public void collectMidterms(Scanner scanner) {
+      for (String midterm : courseMidterms) {
+         promptTaskScore(midterm);
+         while (!scanner.hasNextDouble()) {
+            doubleErrorMessage(midterm);
+            scanner.nextLine();
+            promptTaskScore(midterm);
+         }
+         double midtermScore = scanner.nextDouble();
+         this.setMidtermScore(midterm, midtermScore);
+      }
+   }
 
-    // setters
-    /**
-     * setScore() updates the student's grade and associated
-     * task. If the entry for task already exists, a message
-     * notifies the user that an update has occured. If the
-     * task did not exist, the user is notified of the addition.
-     * 
-     * @param task String representation of a task which has received a score
-     * @param score Integer representing score given for a task
-     */
-    public void setScore(String task, Double score) {
-        if (this.studentScores.put(task,score) != null) {
-            System.out.printf("%s score has been updated to %f\n", task, score);
-        }//end if
-        else {
-            System.out.printf("%s score added", task);
-        }//end else
-    }//end setScore()
+   public void collectFinalExam(Scanner scanner) {
+      String finalExam = "Final Exam";
+      promptTaskScore(finalExam);
+      while (!scanner.hasNextDouble()) {
+         doubleErrorMessage(finalExam);
+         scanner.nextLine();
+         promptTaskScore(finalExam);
+      }
+      double finalExamScore = scanner.nextDouble();
+      this.setFinalExamScore(finalExamScore);
+   }
 
-    /**
-     * setName() accepts a string argument and associates
-     * that String as the name for the student instance.
-     * 
-     * @param studentName String representing a student's name
-     */
-    public void setName(String studentName) {
-        this.studentName = studentName;
-    }//end setName()
-}//end Student
+   // Prompts
+   public void promptName() {
+      System.out.println("Welcome to the interactive grade book" +
+      "What is the student name?");
+   }
 
-class CourseWeight {
-   //public static void 
-   //Total_Grade = (0.1 x part.) + (0.35 x proj.) + (0.3 x Midt.) + (.25 x Final.)
+   public void promptParticipation() {
+      System.out.println("Did student receive participation credit? (yes/no)");
+   }
+
+   public void promptTaskScore(String taskName) {
+      System.out.printf("Enter grade for %s.\n", taskName);
+   }
+
+   public void promptFinalExam() {
+      String finalExam = "Final Exam";
+      promptTaskScore(finalExam);
+   }
+   public void doubleErrorMessage(String assignmentName) {
+      System.out.printf("Error - Expected number score for %s.\n", assignmentName);
+   }
+   public void displayResults() {
+      System.out.println("* * * * *");
+      System.out.println("Here is the grade summary for " + getName() + ".");
+      System.out.println("Participation score: " + decimalFormat.format(getParticipationScore()));
+      System.out.println("Project score: " + decimalFormat.format(getProjectAverage()));
+      System.out.println("Midterm score: " + decimalFormat.format(getMidtermAverage()));
+      if (this.midtermSwapFlag == true) {
+         System.out.println("A midterm grade was replaced by the final exam grade.");
+      }
+      System.out.println("Final Exam score: " + decimalFormat.format(getFinalExamScore()));
+      System.out.println("Total score: " + decimalFormat.format(getTotalScore()));
+      System.out.println("Final grade: " + getLetterGrade());
+      System.out.println("* * * * *");
+   }
 }

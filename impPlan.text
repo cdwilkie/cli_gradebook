@@ -1,22 +1,38 @@
-Student Class
-Course Name
-grades
-name
 
-gradebook Class
-Course Name ?
-Student(s)
-grade weights
-Grade components
-    Activity (String) Weight(Double)
-Grade Formula (Double) static?
+class Gradebook {
+    Course Name
+    Course weights
+    Records
 
-Course Class
-Name
-Breakdown of Score
-Grade Calculation
+    Logic:
+    calculateParticipation
+        - Participation * Course Weight
+    calculateProject
+        - Project avg * Course Weight
+    calculateMidterm
+        - Midterm avg * Course Weight
+    calculateFinal
+        - Final Exam * Course Weight
+    calculateTotalGrade
+        - Total_Grade = (0.1 x part.) + (0.35 x proj.) + (0.3 x Midt.) + (.25 x Final.)
+        - Total_Grade = calculateParticipation + CalculateProject + calculateMidterm + calculateFinal
+    midtermExchange
+        - if finalExam > min(midterm1,2,3) && final+2midterms increases total grade
 
 
+}
 
-student should have scores
-gradebook assigns letter grade
+class Record {
+    String name
+    participation score
+    project scores
+    midterm scores
+    final exam score
+    double grade score
+    String letter grade
+
+    Prompts:
+        Did student receive participation.
+        Enter grade for < assignment name >.
+
+}
