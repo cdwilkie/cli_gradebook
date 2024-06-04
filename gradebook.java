@@ -1,7 +1,16 @@
 import java.util.*;
 import java.text.*;
 
-
+/**
+ * Gradebook class models the behavior of a
+ * course gradebook. Tasks (Projects, Midterms,etc.)
+ * are assigned a weight so that a final grade may be
+ * tallied. Methods provided to output results to console.<p>
+ * Contains a main() driver to begin a demo of the class
+ * by constructing a record and collecting data. Instantiated
+ * with default constructor. Demonstration activated by
+ * demoMode() method.
+ */
 public class Gradebook {
 
    // Course Weight for Tasks
@@ -60,28 +69,59 @@ public class Gradebook {
 
 
    // getters
+   /**
+    * getMidtermSwapFlag() returns the current value
+    * stored in the boolean midtermSwapFlag.
+    * @return Boolean flag that identifies a midterm swap occured
+    */
    public boolean getMidtermSwapFlag() {
       return this.midtermSwapFlag;
-   }
+   }//end getMidtermSwapFlag()
+
+   /**
+    * getLetterGrade() returns the current value
+    * stored in the String letterGrade.
+    * @return String Letter Grade value
+    */
    public String getLetterGrade() {
       return this.letterGrade;
-   }
+   }//end getLetterGrade()
 
+   /**
+    * getName() returns the current value
+    * stored in the String studentName.
+    * @return String value of student name.
+    */
    public String getName() {
       return this.studentName;
-   }
+   }//end getName()
 
+   /**
+    * getParticipationScore() returns the current value
+    * stored in the double participationScore.
+    * @return Double value score awarded from participation
+    */
    public double getParticipationScore() {
       return this.participationScore;
-   }
+   }//end getParticipationScore()
 
+   /**
+    * getProjectAverage() returns the value stored
+    * in the double projectAverage.
+    * @return Double average of all project scores
+    */
    public double getProjectAverage() {
       return this.projectAverage;
-   }
+   }//end getProjectAverage()
 
+   /**
+    * getProjectScores() returns HashMap<String,Double>
+    * reference to projectScores.
+    * @return Reference to HashMap that stores Projects and scores.
+    */
    public HashMap<String, Double> getProjectScores() {
       return this.projectScores;
-   }
+   }//end getProjectScores()
 
    public double getProjectScore(String projectName) {
       return projectScores.get(projectName);
