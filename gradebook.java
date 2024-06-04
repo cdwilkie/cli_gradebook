@@ -52,8 +52,8 @@ public class Gradebook {
       studentName = "";
       letterGrade = "";
       midtermSwapFlag = false;
-      participationScore = projectAverage = midtermAverage = finalExamScore =
-       totalScore = 0;
+      participationScore = projectAverage = midtermAverage =
+       finalExamScore = totalScore = 0;
       projectScores = new HashMap<String, Double>();
       midtermScores = new HashMap<String, Double>();
    }//end Gradebook() constructor
