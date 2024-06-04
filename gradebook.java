@@ -4,38 +4,50 @@ import java.text.*;
 
 public class Gradebook {
 
+   // Course Weight for Tasks
    private static final double PARTICIPATION_WEIGHT = 0.10;
    private static final double PROJECT_WEIGHT = 0.35;
    private static final double MIDTERM_WEIGHT = 0.30;
    private static final double FINAL_EXAM_WEIGHT = 0.25;
    //private static final String COURSE_NAME = "COMP 163";
    
-
+   // List of Scored Course Tasks
    private static final String[] courseProjects = 
       new String [] {"Project 1", "Project 2"};
    private static final String[] courseMidterms = 
       new String[] {"Midterm 1", "Midterm 2", "Midterm 3"};
 
-
+   // Instance Variables
    private String studentName, letterGrade;
-   private boolean midtermSwapFlag;
+   private boolean midtermSwapFlag;             //Lowest Midterm Grade Swapped
    private double participationScore, projectAverage, midtermAverage;
    private double finalExamScore, totalScore;
    private HashMap<String, Double> projectScores, midtermScores;
    
-
+   // Formats numerical score to letter grade
    private double[] gradeThresholds = new double[] {0, 60, 70, 80, 90};
    private String[] letterGrades = new String[] {"F", "D", "C", "B", "A"};
    ChoiceFormat gradeFormat = new ChoiceFormat(gradeThresholds, letterGrades);
    DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-
+   /**
+    * main() is the driver for Gradebook class demo.
+    * A gradebook object is instantiated, wherein
+    * the demoMode() method is called. Console
+    * interaction begins.
+    * @param args Command-Line arguments not utilized.
+    */
    public static void main(String[] args) {
       Gradebook newDemo = new Gradebook();
       newDemo.demoMode();
       
-   }
+   }// end main()
 
+   // Constructors
+   /**
+    * Gradebook() constructor initializes all instance variables
+    * to default/empty/null/false values.
+    */
    public Gradebook() {
       studentName = "";
       letterGrade = "";
@@ -44,7 +56,7 @@ public class Gradebook {
        totalScore = 0;
       projectScores = new HashMap<String, Double>();
       midtermScores = new HashMap<String, Double>();
-   }
+   }//end Gradebook() constructor
 
 
    // getters
