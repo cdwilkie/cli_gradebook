@@ -3,7 +3,6 @@ class Gradebook {
     Course Name
     Course weights
     Records
-    enum Course Assignments
 
     Logic:
     calculateParticipation
@@ -19,9 +18,6 @@ class Gradebook {
         - Total_Grade = calculateParticipation + CalculateProject + calculateMidterm + calculateFinal
     midtermExchange
         - if finalExam > min(midterm1,2,3) && final+2midterms increases total grade
-    getEnumAssignments
-
-    
 
 
 }
@@ -32,8 +28,8 @@ class Record {
     project scores
     midterm scores
     final exam score
-    double final grade score
-    String final letter grade
+    double grade score
+    String letter grade
 
     Prompts:
         Did student receive participation.
