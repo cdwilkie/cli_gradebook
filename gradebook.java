@@ -13,6 +13,20 @@ import java.text.*;
  */
 public class Gradebook {
 
+   /**
+    * main() is the driver for Gradebook class demo.
+    * A gradebook object is instantiated, wherein
+    * the demoMode() method is called. Console
+    * interaction begins.
+    * @param args Command-Line arguments not utilized.
+    */
+    public static void main(String[] args) {
+      Gradebook newDemo = new Gradebook();
+      newDemo.demoMode();
+   }// end main()
+
+
+
    // Course Weight for Tasks
    /** Participation is 10% of Total Grade */
    private static final double PARTICIPATION_WEIGHT = 0.10;
@@ -66,19 +80,6 @@ public class Gradebook {
    /** Formats decimal numbers to two decimal places */
    DecimalFormat decimalFormat;
 
-   /**
-    * main() is the driver for Gradebook class demo.
-    * A gradebook object is instantiated, wherein
-    * the demoMode() method is called. Console
-    * interaction begins.
-    * @param args Command-Line arguments not utilized.
-    */
-   public static void main(String[] args) {
-      Gradebook newDemo = new Gradebook();
-      newDemo.demoMode();
-   }// end main()
-
-   
    // Constructors
    /**
     * Gradebook() constructor initializes all instance variables
@@ -231,9 +232,15 @@ public class Gradebook {
       this.letterGrade = letterGrade;
    }//end setLetterGrade()
 
+   /**
+    * setName() accepts a string parameter that
+    * represents a student name. Parameter is used to
+    * update instance variable studentName.
+    * @param studentName String holding student name
+    */
    public void setName(String studentName) {
       this.studentName = studentName;
-   }
+   }//end setName()
 
    public void setParticipationScore(double participationScore) {
       this.participationScore = participationScore;
@@ -272,7 +279,6 @@ public class Gradebook {
    }
 
    // Logic
-   // Consider methods that accept arrays/collections of doubles
    public void demoMode() {
       Scanner scanner = new Scanner(System.in);
       collectName(scanner);
@@ -310,7 +316,6 @@ public class Gradebook {
       totalScore += (getFinalExamScore() * FINAL_EXAM_WEIGHT);
       return totalScore;
    }
-
 
    public double calculateAverage(ArrayList<Double>studentScores) {
       double calculatedAverage = 0;
@@ -468,4 +473,4 @@ public class Gradebook {
       System.out.println("Final grade: " + getLetterGrade());
       System.out.println("* * * * *");
    }
-}
+}//end Gradebook class
