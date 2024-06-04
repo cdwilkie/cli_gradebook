@@ -76,9 +76,9 @@ public class Gradebook {
    public static void main(String[] args) {
       Gradebook newDemo = new Gradebook();
       newDemo.demoMode();
-      
    }// end main()
 
+   
    // Constructors
    /**
     * Gradebook() constructor initializes all instance variables
@@ -212,12 +212,24 @@ public class Gradebook {
 
 
    // setters
+   /**
+    * setMidtermSwapFlag() accepts a boolean parameter
+    * and uses it to update the instance midtermSwapFlag
+    * @param midtermSwapFlag Boolean indicating status of swap
+    */
    public void setMidtermSwapFlag(boolean midtermSwapFlag) {
       this.midtermSwapFlag = midtermSwapFlag;
-   }
+   }//end setMidtermSwapFlag()
+
+   /**
+    * setLetterGrade() accepts a String parameter that
+    * represents a letter grade. Parameter is used to update
+    * instance variable letterGrade.
+    * @param letterGrade String holding a letter grade
+    */
    public void setLetterGrade(String letterGrade) {
       this.letterGrade = letterGrade;
-   }
+   }//end setLetterGrade()
 
    public void setName(String studentName) {
       this.studentName = studentName;
