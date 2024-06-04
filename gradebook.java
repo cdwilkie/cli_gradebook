@@ -13,7 +13,7 @@ public class Gradebook {
    
    // List of Scored Course Tasks
    private static final String[] courseProjects = 
-      new String [] {"Project 1", "Project 2"};
+      new String[] {"Project 1", "Project 2"};
    private static final String[] courseMidterms = 
       new String[] {"Midterm 1", "Midterm 2", "Midterm 3"};
 
@@ -314,11 +314,12 @@ public class Gradebook {
    // Prompts
    public void promptName() {
       System.out.println("Welcome to the interactive grade book. " +
-      "What is the student name?");
+       "What is the student name?");
    }
 
    public void promptParticipation() {
-      System.out.println("Did student receive participation credit? (yes/no)");
+      System.out.println("Did student receive participation credit?" +
+       " (yes/no)");
    }
 
    public void promptTaskScore(String taskName) {
