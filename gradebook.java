@@ -19,6 +19,10 @@ public class Gradebook {
    private static final double MIDTERM_WEIGHT = 0.30;
    private static final double FINAL_EXAM_WEIGHT = 0.25;
    //private static final String COURSE_NAME = "COMP 163";
+
+   // Grade Thresholds
+   private static final double[] gradeThresholds = new double[] {0, 60, 70, 80, 90};
+   private static final String[] letterGrades = new String[] {"F", "D", "C", "B", "A"};
    
    // List of Scored Course Tasks
    private static final String[] courseProjects = 
@@ -34,10 +38,8 @@ public class Gradebook {
    private HashMap<String, Double> projectScores, midtermScores;
    
    // Formats numerical score to letter grade
-   private double[] gradeThresholds = new double[] {0, 60, 70, 80, 90};
-   private String[] letterGrades = new String[] {"F", "D", "C", "B", "A"};
-   ChoiceFormat gradeFormat = new ChoiceFormat(gradeThresholds, letterGrades);
-   DecimalFormat decimalFormat = new DecimalFormat("#.##");
+   ChoiceFormat gradeFormat;
+   DecimalFormat decimalFormat;
 
    /**
     * main() is the driver for Gradebook class demo.
@@ -55,7 +57,9 @@ public class Gradebook {
    // Constructors
    /**
     * Gradebook() constructor initializes all instance variables
-    * to default/empty/null/false values.
+    * to default/empty/null/false values. ChoiceFormat allows
+    * decimal grades to be parsed into letter grades.
+    * DecimalFormat keeps double values to two percision places.
     */
    public Gradebook() {
       studentName = "";
@@ -65,6 +69,8 @@ public class Gradebook {
        finalExamScore = totalScore = 0;
       projectScores = new HashMap<String, Double>();
       midtermScores = new HashMap<String, Double>();
+      gradeFormat = new ChoiceFormat(gradeThresholds, letterGrades);
+      decimalFormat = new DecimalFormat("#.##");
    }//end Gradebook() constructor
 
 
@@ -247,11 +253,9 @@ public class Gradebook {
       setTotalScore(totalScore);
       midtermSwapTest();
       calculateLetterGrade();
-      displayResults();
-      
-      
-
+      displayResults();   
    }
+
    public double calculateTotalScore() {
       double totalScore = 0;
       totalScore += (getParticipationScore() * PARTICIPATION_WEIGHT);
@@ -268,7 +272,6 @@ public class Gradebook {
       totalScore += (modifiedMidterm * MIDTERM_WEIGHT);
       totalScore += (getFinalExamScore() * FINAL_EXAM_WEIGHT);
       return totalScore;
-      
    }
 
 
@@ -402,10 +405,12 @@ public class Gradebook {
       String finalExam = "Final Exam";
       promptTaskScore(finalExam);
    }
+
    public void doubleErrorMessage(String assignmentName) {
       System.out.printf("Error - Expected number score for %s.\n",
        assignmentName);
    }
+
    public void displayResults() {
       System.out.println("* * * * *");
       System.out.println("Here is the grade summary for " + getName() + ".");
