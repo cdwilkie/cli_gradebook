@@ -3,16 +3,15 @@ import java.text.*;
 
 /**
  * Gradebook class models the behavior of a
- * course gradebook. Tasks (Projects, Midterms,etc.)
+ * classroom gradebook. Tasks (Projects, Midterms,etc.)
  * are assigned a weight so that a final grade may be
- * tallied. Methods provided to output results to console.<p>
+ * tallied. Methods are provided to output results to console.<p>
  * Contains a main() driver to begin a demo of the class
  * by constructing a record and collecting data. Instantiated
  * with default constructor. Demonstration activated by
  * demoMode() method.
  */
 public class Gradebook {
-
    /**
     * main() is the driver for Gradebook class demo.
     * A gradebook object is instantiated, wherein
@@ -24,8 +23,6 @@ public class Gradebook {
       Gradebook newDemo = new Gradebook();
       newDemo.demoMode();
    }// end main()
-
-
 
    // Course Weight for Tasks
    /** Participation is 10% of Total Grade */
@@ -77,7 +74,7 @@ public class Gradebook {
    // Formats numerical score to letter grade
    /** Formats decimal grades into letter grades, via thresholds */
    ChoiceFormat gradeFormat;
-   /** Formats decimal numbers to two decimal places */
+   /** Formats decimal numbers to two decimal places using pattern "#.##" */
    DecimalFormat decimalFormat;
 
    // Constructors
@@ -242,41 +239,97 @@ public class Gradebook {
       this.studentName = studentName;
    }//end setName()
 
+   /**
+    * setParticipationScore accepts a double parameter that
+    * represents a participation score. Parameter is used to
+    * update instance variable participationScore.
+    * @param participationScore Double holding participation score.
+    */
    public void setParticipationScore(double participationScore) {
       this.participationScore = participationScore;
-   }
+   }//end setParticipationScore()
 
+   /**
+    * setProjectAverage() accepts a double parameter that
+    * represents a calculated project average. Parameter is used
+    * to update instance variable projectAverage.
+    * @param projectAverage Double holding calculated project average
+    */
    public void setProjectAverage(double projectAverage) {
       this.projectAverage = projectAverage;
-   }
+   }//end setProjectAverage()
 
+   /**
+    * setProjectScores() accepts a HashMap<String,Double> reference
+    * parameter that represents the assigned project names and associated
+    * scores earned. Parameter is used to update instance variable
+    * projectScores.
+    * @param projectScores HashMap<String,Double> reference that holds
+    * project name and associated scores earned.
+    */
    public void setProjectScores(HashMap<String, Double> projectScores) {
       this.projectScores = projectScores;
-   }
+   }//end setProjectScores()
 
+   /**
+    * setProjectScore() accepts a String holding a project name and a
+    * double representing an associated score. This key,value pair is used
+    * to update the projectScores HashMap entry for that key.
+    * @param projectName String representing an assigned project name
+    * @param projectScore Double representing an associated project score
+    */
    public void setProjectScore(String projectName, double projectScore) {
       projectScores.put(projectName, projectScore);
-   }
+   }//end setProjectScore()
 
+   /**
+    * setMidtermAvverage accepts a double holding a calculated midterm
+    * average. Parameter is used to update the instance variable midtemAverage
+    * @param midtermAverage Double holding calculated midterm average
+    */
    public void setMidtermAverage(double midtermAverage) {
       this.midtermAverage = midtermAverage;
-   }
+   }//end setMidtermAverage
 
+   /**
+    * setMidtermScores() accepts a HashMap<String, Double> reference
+    * as a parameter. Reference used to update instance variable midtermScores.
+    * @param midtermScores HashMap<String, Double> reference holding
+    * assigned midterms and their associated scores.
+    */
    public void setMidtermScores(HashMap<String, Double> midtermScores) {
       this.midtermScores = midtermScores;
-   }
+   }//end setMidtermScores()
 
+   /**
+    * setMidtermScores() accepts a String and Double parameter to update
+    * the instance variable HashMap<String, Double> entry.
+    * @param midtermName String representing an assigned course midterm
+    * @param midtermScore Double representing an associated score earned on
+    * an assigned midterm.
+    */
    public void setMidtermScore(String midtermName, double midtermScore) {
       midtermScores.put(midtermName, midtermScore);
-   }
+   }//end setMidtermScore()
 
+   /**
+    * setFinalExamScore() accepts a double parameter to update
+    * the instance variable finalExamScore.
+    * @param finalExamScore Double representing the final exam score.
+    */
    public void setFinalExamScore(double finalExamScore) {
       this.finalExamScore = finalExamScore;
-   }
+   }//end setFinalExamScore()
 
+   /**
+    * setTotalScore() accepts a double parameter to update
+    * the instance variable totalScore
+    * @param totalScore Double representing the calculated
+    * total score for the course.
+    */
    public void setTotalScore(double totalScore) {
       this.totalScore = totalScore;
-   }
+   }//end setTotalScore()
 
    // Logic
    public void demoMode() {
