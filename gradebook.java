@@ -19,7 +19,7 @@ public class Gradebook {
     * interaction begins.
     * @param args Command-Line arguments not utilized.
     */
-    public static void main(String[] args) {
+   public static void main(String[] args) {
       Gradebook newDemo = new Gradebook();
       newDemo.demoMode();
    }// end main()
