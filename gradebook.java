@@ -332,7 +332,15 @@ public class Gradebook {
    }//end setTotalScore()
 
    // Logic
+   /**
+    * demoMode() calls the necessary methods to demonstrate the
+    * features of the Gradebook class. CLI begins collecting
+    * data from the user via the console. A grade is calculated
+    * from the scores and a letter grade is applied. Results
+    * are displayed to the console.
+    */
    public void demoMode() {
+
       Scanner scanner = new Scanner(System.in);
       collectName(scanner);
       collectParticipation(scanner);
@@ -350,8 +358,15 @@ public class Gradebook {
       midtermSwapTest();
       calculateLetterGrade();
       displayResults();   
-   }
+   }//end demoMode()
 
+   /**
+    * calculateTotalScore() retrieves the values stored in
+    * participation, project average, midterm average, and
+    * Final Exam score and applies the course weights to
+    * calculate the course grade total score.
+    * @return Double calculated total score for course
+    */
    public double calculateTotalScore() {
       double totalScore = 0;
       totalScore += (getParticipationScore() * PARTICIPATION_WEIGHT);
@@ -359,8 +374,16 @@ public class Gradebook {
       totalScore += (getMidtermAverage() * MIDTERM_WEIGHT);
       totalScore += (getFinalExamScore() * FINAL_EXAM_WEIGHT);
       return totalScore;
-   }
+   }//end calculateTotalScore()
 
+   /**
+    * calculateTotalScore() is an overloaded fuction that accepts
+    * a double modifiedMidterm parameter that represents the 
+    * new midterm average after replacing the lowest midterm
+    * score with the higher Final Exam Score.
+    * @param modifiedMidterm Double new midterm average with swap.
+    * @return Double new calculated total score with swap
+    */
    public double calculateTotalScore(double modifiedMidterm) {
       double totalScore = 0;
       totalScore += (getParticipationScore() * PARTICIPATION_WEIGHT);
@@ -368,17 +391,31 @@ public class Gradebook {
       totalScore += (modifiedMidterm * MIDTERM_WEIGHT);
       totalScore += (getFinalExamScore() * FINAL_EXAM_WEIGHT);
       return totalScore;
-   }
+   }//end calculateTotalScore()
 
+   /**
+    * calculateAverage() accepts an ArrayList<Double> reference
+    * representing student scores. The average of the scores is
+    * calculated and then returned as a double.
+    * @param studentScores ArrayList<Double> reference of scores
+    * @return Double calculated average of scores
+    */
    public double calculateAverage(ArrayList<Double>studentScores) {
       double calculatedAverage = 0;
       for (double value : studentScores) {
          calculatedAverage += value;
-      }
+      }//end for()
       calculatedAverage /= studentScores.size();
       return calculatedAverage;
-   }
+   }//end calculatedAverage()
 
+   /**
+    * midtermSwapTest() checks to see if the student's
+    * scores are eligible for the midterm swap. If the
+    * final score is higher than the lowest midterm and
+    * switching the scores would generate a higher letter
+    * grade, the swap is performed.
+    */
    public void midtermSwapTest() {
       double lowestMidtermScore =
        Collections.min(getMidtermScores().values());
@@ -393,29 +430,41 @@ public class Gradebook {
             setMidtermSwapFlag(true);
             setMidtermAverage(newMidtermAverage);
             setTotalScore(newTotalScore);
-         }
+         }//end if new score should swap
          else {
             setMidtermSwapFlag(false);
-         }
-
-      }
+         }//end else no swap
+      }//end if a midterm lower than final
       else {
          setMidtermSwapFlag(false);
-      }
-   }
+      }//end else midterm not lower
+   }//end midtermSwapTest()
 
+   /**
+    * midtermSwapAverage() accepts an ArrayList<Double> reference
+    * of midterm scores. Locates the smallest value and swaps that
+    * value for the Final Exam score. The new average for midterm
+    * is calculated and returned.
+    * @param studentScores ArrayList<Double> reference of midterm scores
+    * @return double new calculated midterm average
+    */
    public double midtermSwapAverage(ArrayList<Double> studentScores) {
       double lowestMidtermScore = Collections.min(studentScores);
       studentScores.set(studentScores.indexOf(lowestMidtermScore),
        getFinalExamScore());
       double newMidtermAverage = calculateAverage(studentScores);
       return newMidtermAverage;
-   }
+   }//end midtermSwapAverage()
 
+   /**
+    * calculateLetterGrade() applies the gradeFormat choice formatter
+    * to parse the double Total Score into the appropriate 
+    * letter grade. Updates the instance variable to store the letter.
+    */
    public void calculateLetterGrade() {
       String letterGrade = gradeFormat.format(this.getTotalScore());
       setLetterGrade(letterGrade);
-   }
+   }//end calculateLetterGrade()
 
    // Data Collectors
    public void collectName(Scanner scanner) {        // Sanitize Input
@@ -431,16 +480,16 @@ public class Gradebook {
          if (userResponse.toLowerCase().trim().equals("yes")) {
             this.setParticipationScore(100);
             break;
-         }
+         }//end if input yes
          else if (userResponse.toLowerCase().trim().equals("no")) {
             this.setParticipationScore(0);
             break;
-         }
+         }//end else if input no
          else {
             System.out.println("Expected 'yes' or 'no' as answer");
             continue;
-         }
-      }
+         }//end else wrong input
+      }//end while input not collected
    }
 
    public void collectProjects(Scanner scanner) {
@@ -450,10 +499,10 @@ public class Gradebook {
             doubleErrorMessage(project);
             scanner.nextLine();
             promptTaskScore(project);
-         }
+         }//end while input not double
          double projectScore = scanner.nextDouble();
          this.setProjectScore(project, projectScore);
-      }
+      }//end for every project
    }
 
    public void collectMidterms(Scanner scanner) {
@@ -463,10 +512,10 @@ public class Gradebook {
             doubleErrorMessage(midterm);
             scanner.nextLine();
             promptTaskScore(midterm);
-         }
+         }//end while input not double
          double midtermScore = scanner.nextDouble();
          this.setMidtermScore(midterm, midtermScore);
-      }
+      }//end for every midterm
    }
 
    public void collectFinalExam(Scanner scanner) {
@@ -476,7 +525,7 @@ public class Gradebook {
          doubleErrorMessage(finalExam);
          scanner.nextLine();
          promptTaskScore(finalExam);
-      }
+      }//end while input not double
       double finalExamScore = scanner.nextDouble();
       this.setFinalExamScore(finalExamScore);
    }
@@ -518,7 +567,7 @@ public class Gradebook {
       if (this.midtermSwapFlag == true) {
          System.out.println("A midterm grade was replaced by" +
           " the final exam grade.");
-      }
+      }//end if midterm swapped
       System.out.println("Final Exam score: " +
        decimalFormat.format(getFinalExamScore()));
       System.out.println("Total score: " +
