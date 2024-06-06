@@ -467,11 +467,17 @@ public class Gradebook {
    }//end calculateLetterGrade()
 
    // Data Collectors
+   /**
+    * collectName() accepts a Scanner object reference
+    * to parse the System.in stream and collect the
+    * student name.
+    * @param scanner Reference to Scanner object (System.in)
+    */
    public void collectName(Scanner scanner) {        // Sanitize Input
       promptName();
       String studentName = scanner.nextLine();
       this.setName(studentName);
-   }
+   }//end collectName()
 
    public void collectParticipation(Scanner scanner) { 
       while (true) {
@@ -531,30 +537,72 @@ public class Gradebook {
    }
 
    // Prompts
+   /**
+    * promptName() utilizes println commands to output a
+    * welcome message to the user and the prompt for the 
+    * name of a student.
+    */
    public void promptName() {
       System.out.println("Welcome to the interactive grade book. " +
        "What is the student name?");
-   }
+   }//end promptName()
 
+   /**
+    * promptParticipation() prints a prompt to console asking the 
+    * user to enter a 'yes' or 'no' response for receiving 
+    * participation credi
+    */
    public void promptParticipation() {
       System.out.println("Did student receive participation credit?" +
        " (yes/no)");
-   }
+   }//end promptParticipation()
 
+   /**
+    * promptTaskScore() accepts a string name of an assigned task
+    * for the course and then prompts the user to enter the score
+    * for that task.
+    * @param taskName String representing the name of a course task
+    */
    public void promptTaskScore(String taskName) {
       System.out.printf("Enter grade for %s.\n", taskName);
-   }
+   }//end promptTaskScore()
 
+   /**
+    * promptFinalExam() prints a prompt to console asking the user
+    * to enter the score earned by the student on the course 
+    * final exam
+    */
    public void promptFinalExam() {
       String finalExam = "Final Exam";
       promptTaskScore(finalExam);
-   }
+   }//end promptFinalExam()
 
+   /**
+    * doubleErrorMessage() accepts a string holding the name of a
+    * course assignment/task and outputs an error message to the console
+    * utilizing that name.<p>This message is called by any method that 
+    * uses a scanner object and parses incorrect input when looking for
+    * a double
+    * @param assignmentName String holding name of an assignment
+    */
    public void doubleErrorMessage(String assignmentName) {
       System.out.printf("Error - Expected number score for %s.\n",
        assignmentName);
-   }
+   }//end doubleErrorMessage()
 
+   /**
+    * displayResults() queries the instance variables and outputs
+    * the data to the console. Information is formatted to neatly
+    * display:<ul> 
+    *    <li>Student Name</li>
+    *    <li>Participation Score</li>
+    *    <li>Project Score Average</li>
+    *    <li>Midterm Score Average</li>
+    *    <li>Status of Midterm Swap</li>
+    *    <li>Final Exam Score</li>
+    *    <li>Total Course Core</li>
+    *    <li>Final Letter Grade</li></ul>
+    */
    public void displayResults() {
       System.out.println("* * * * *");
       System.out.println("Here is the grade summary for " + getName() + ".");
@@ -574,5 +622,5 @@ public class Gradebook {
        decimalFormat.format(getTotalScore()));
       System.out.println("Final grade: " + getLetterGrade());
       System.out.println("* * * * *");
-   }
+   }//end displayResults()
 }//end Gradebook class
