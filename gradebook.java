@@ -470,7 +470,7 @@ public class Gradebook {
    /**
     * collectName() accepts a Scanner object reference
     * to parse the System.in stream and collect the
-    * student name.
+    * student name and update instance variable.
     * @param scanner Reference to Scanner object (System.in)
     */
    public void collectName(Scanner scanner) {        // Sanitize Input
@@ -479,6 +479,14 @@ public class Gradebook {
       this.setName(studentName);
    }//end collectName()
 
+   /**
+    * collectParticipation accepts a Scanner object reference
+    * to parse the System.in stream and collect fron the user a
+    * 'yes' or 'no' response. User is asked if student received
+    * participation credit and loops until proper input is received
+    * and then updates instance variables.
+    * @param scanner Scanner object reference to System.in
+    */
    public void collectParticipation(Scanner scanner) { 
       while (true) {
          promptParticipation();
@@ -496,45 +504,66 @@ public class Gradebook {
             continue;
          }//end else wrong input
       }//end while input not collected
-   }
+   }//end collectParticipation()
 
+   /**
+    * collectProjects() accepts a scanner object reference to
+    * parse th System.in stream and collect from the user all
+    * scores for the course projects. User is prompted for the
+    * score of each project, one-by-one and updates instance variables.
+    * @param scanner Scanner object reference to parse System.in input
+    */
    public void collectProjects(Scanner scanner) {
       for (String project : courseProjects) {
          promptTaskScore(project);
          while (!scanner.hasNextDouble()) {
-            doubleErrorMessage(project);
+            inputErrorMessage(project);
             scanner.nextLine();
             promptTaskScore(project);
          }//end while input not double
          double projectScore = scanner.nextDouble();
          this.setProjectScore(project, projectScore);
       }//end for every project
-   }
+   }//end collectProjects
 
+   /**
+    * collectMidterms() accepts a Scanner object reference
+    * to parse System.in for user input. User is prompted
+    * for scores to each course midterm and updates instance
+    * variables.
+    * @param scanner Scanner object for System.in
+    */
    public void collectMidterms(Scanner scanner) {
       for (String midterm : courseMidterms) {
          promptTaskScore(midterm);
          while (!scanner.hasNextDouble()) {
-            doubleErrorMessage(midterm);
+            inputErrorMessage(midterm);
             scanner.nextLine();
             promptTaskScore(midterm);
          }//end while input not double
          double midtermScore = scanner.nextDouble();
          this.setMidtermScore(midterm, midtermScore);
       }//end for every midterm
-   }
+   }//end collectMidterms()
 
+   /**
+    * collectFinalExam() accepts a Scanner object reference
+    * to parse System.in for user input. User receives prompt
+    * to enter student score for Final Exam. Data is collected
+    * and the instance variable is upated finalExamScore.
+    * @param scanner Scanner object reference (System.in)
+    */
    public void collectFinalExam(Scanner scanner) {
       String finalExam = "Final Exam";
       promptTaskScore(finalExam);
       while (!scanner.hasNextDouble()) {
-         doubleErrorMessage(finalExam);
+         inputErrorMessage(finalExam);
          scanner.nextLine();
          promptTaskScore(finalExam);
       }//end while input not double
       double finalExamScore = scanner.nextDouble();
       this.setFinalExamScore(finalExamScore);
-   }
+   }//end collectFinalExam()
 
    // Prompts
    /**
@@ -578,17 +607,17 @@ public class Gradebook {
    }//end promptFinalExam()
 
    /**
-    * doubleErrorMessage() accepts a string holding the name of a
+    * inputErrorMessage() accepts a string holding the name of a
     * course assignment/task and outputs an error message to the console
     * utilizing that name.<p>This message is called by any method that 
     * uses a scanner object and parses incorrect input when looking for
     * a double
     * @param assignmentName String holding name of an assignment
     */
-   public void doubleErrorMessage(String assignmentName) {
-      System.out.printf("Error - Expected number score for %s.\n",
+   public void inputErrorMessage(String assignmentName) {
+      System.out.printf("Error - Invalid input for %s.\n",
        assignmentName);
-   }//end doubleErrorMessage()
+   }//end inputErrorMessage()
 
    /**
     * displayResults() queries the instance variables and outputs
